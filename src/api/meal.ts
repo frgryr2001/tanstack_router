@@ -1,4 +1,5 @@
 import invariant from 'tiny-invariant'
+import { notFound } from '@tanstack/react-router'
 
 export interface Meal {
   idMeal: string
@@ -147,13 +148,6 @@ export const mealApi = {
 
   // Get meal detail by ID
   getMealById: async (id: string): Promise<ProcessedMeal> => {
-    console.log(
-      '📡 Meal API: getMealById() called for ID:',
-      id,
-      'at:',
-      new Date().toLocaleTimeString(),
-    )
-
     // Validate input
     invariant(id, 'Meal ID is required')
     invariant(typeof id === 'string', 'Meal ID must be a string')
@@ -170,13 +164,6 @@ export const mealApi = {
       )
 
       const data: MealResponse = await response.json()
-
-      console.log(
-        '✅ Meal API: getMealById() returned meal for ID:',
-        id,
-        'at:',
-        new Date().toLocaleTimeString(),
-      )
 
       // TheMealDB returns null when meal not found
       if (!data.meals || data.meals.length === 0) {
@@ -201,9 +188,10 @@ export const mealApi = {
         return processMeal(meal)
       } catch (error) {
         console.error(`❌ Failed to process meal with ID "${id}":`, error)
-        throw new Error(
-          `Failed to process meal with ID "${id}": ${error instanceof Error ? error.message : 'Unknown error'}`,
-        )
+        // throw new Error(
+        //   `Failed to process meal with ID "${id}": ${error instanceof Error ? error.message : 'Unknown error'}`,
+        // )
+        throw notFound()
       }
     } catch (error) {
       console.error(`❌ Meal API error for ID "${id}":`, error)
@@ -216,9 +204,10 @@ export const mealApi = {
         throw error
       }
 
-      throw new Error(
-        `Meal API request failed for ID "${id}": ${error instanceof Error ? error.message : 'Unknown error'}`,
-      )
+      //   throw new Error(
+      //     `Meal API request failed for ID "${id}": ${error instanceof Error ? error.message : 'Unknown error'}`,
+      //   )
+      throw notFound()
     }
   },
 }

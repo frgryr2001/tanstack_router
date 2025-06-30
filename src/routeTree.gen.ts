@@ -13,6 +13,8 @@ import { Route as EmployeesRouteImport } from './routes/employees'
 import { Route as MealsRouteRouteImport } from './routes/meals/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MealsIndexRouteImport } from './routes/meals/index'
+import { Route as LoginIndexRouteImport } from './routes/login/index'
+import { Route as AuthenticatedIndexRouteImport } from './routes/authenticated/index'
 import { Route as MealsMealIdIndexRouteImport } from './routes/meals/$mealId/index'
 
 const EmployeesRoute = EmployeesRouteImport.update({
@@ -35,6 +37,16 @@ const MealsIndexRoute = MealsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => MealsRouteRoute,
 } as any)
+const LoginIndexRoute = LoginIndexRouteImport.update({
+  id: '/login/',
+  path: '/login/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+  id: '/authenticated/',
+  path: '/authenticated/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MealsMealIdIndexRoute = MealsMealIdIndexRouteImport.update({
   id: '/$mealId/',
   path: '/$mealId/',
@@ -45,12 +57,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/meals': typeof MealsRouteRouteWithChildren
   '/employees': typeof EmployeesRoute
+  '/authenticated': typeof AuthenticatedIndexRoute
+  '/login': typeof LoginIndexRoute
   '/meals/': typeof MealsIndexRoute
   '/meals/$mealId': typeof MealsMealIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/employees': typeof EmployeesRoute
+  '/authenticated': typeof AuthenticatedIndexRoute
+  '/login': typeof LoginIndexRoute
   '/meals': typeof MealsIndexRoute
   '/meals/$mealId': typeof MealsMealIdIndexRoute
 }
@@ -59,21 +75,46 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/meals': typeof MealsRouteRouteWithChildren
   '/employees': typeof EmployeesRoute
+  '/authenticated/': typeof AuthenticatedIndexRoute
+  '/login/': typeof LoginIndexRoute
   '/meals/': typeof MealsIndexRoute
   '/meals/$mealId/': typeof MealsMealIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/meals' | '/employees' | '/meals/' | '/meals/$mealId'
+  fullPaths:
+    | '/'
+    | '/meals'
+    | '/employees'
+    | '/authenticated'
+    | '/login'
+    | '/meals/'
+    | '/meals/$mealId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/employees' | '/meals' | '/meals/$mealId'
-  id: '__root__' | '/' | '/meals' | '/employees' | '/meals/' | '/meals/$mealId/'
+  to:
+    | '/'
+    | '/employees'
+    | '/authenticated'
+    | '/login'
+    | '/meals'
+    | '/meals/$mealId'
+  id:
+    | '__root__'
+    | '/'
+    | '/meals'
+    | '/employees'
+    | '/authenticated/'
+    | '/login/'
+    | '/meals/'
+    | '/meals/$mealId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MealsRouteRoute: typeof MealsRouteRouteWithChildren
   EmployeesRoute: typeof EmployeesRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  LoginIndexRoute: typeof LoginIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -106,6 +147,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MealsIndexRouteImport
       parentRoute: typeof MealsRouteRoute
     }
+    '/login/': {
+      id: '/login/'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/authenticated/': {
+      id: '/authenticated/'
+      path: '/authenticated'
+      fullPath: '/authenticated'
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/meals/$mealId/': {
       id: '/meals/$mealId/'
       path: '/$mealId'
@@ -134,6 +189,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MealsRouteRoute: MealsRouteRouteWithChildren,
   EmployeesRoute: EmployeesRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  LoginIndexRoute: LoginIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

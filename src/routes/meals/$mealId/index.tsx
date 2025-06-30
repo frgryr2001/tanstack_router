@@ -6,26 +6,21 @@ import { LoadingMealDetail } from '@/components/PendingComponent'
 export const Route = createFileRoute('/meals/$mealId/')({
   component: MealDetailComponent,
   loader: async ({ params }) => {
-    console.log('🔍 [MEAL DETAIL] Route loader called!')
-    console.log('🔍 [MEAL DETAIL] Params received:', params)
-    console.log(
-      '🚀 TanStack Router: Meal Detail Loader called for ID:',
-      params.mealId,
-      'at:',
-      new Date().toLocaleTimeString(),
-    )
-
     const data = await mealApi.getMealById(params.mealId)
-    console.log(
-      '📦 TanStack Router: Meal Detail Loader finished at:',
-      new Date().toLocaleTimeString(),
-    )
+
     return data
   },
   errorComponent: ({ error }) => (
     <ApiError error={error} backTo="/meals" backLabel="← Back to Meals" />
   ),
   pendingComponent: LoadingMealDetail,
+  notFoundComponent: () => (
+    <ApiError
+      error={new Error('Meal not found')}
+      backTo="/meals"
+      backLabel="← Back to Meals"
+    />
+  ),
   // Cache settings for meal details
   staleTime: 1000 * 60 * 15, // 15 minutes - meal details change less frequently
   gcTime: 1000 * 60 * 60, // 1 hour - keep meal details longer in memory
