@@ -1,6 +1,14 @@
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 
 import { CheckCircleIcon, LogOutIcon, UserIcon } from 'lucide-react'
+import {
+  useCallback,
+  useDeferredValue,
+  useMemo,
+  useState,
+  useSyncExternalStore,
+  useTransition,
+} from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -55,33 +63,7 @@ function AuthenticatedComponent() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <div className="flex items-center space-x-2 mb-2">
-                <UserIcon className="h-5 w-5 text-green-600" />
-                <h3 className="font-semibold text-green-800">
-                  User Information
-                </h3>
-              </div>
-              <div className="space-y-1 text-sm">
-                <p>
-                  <strong>Name:</strong> Admin User
-                </p>
-                <p>
-                  <strong>Email:</strong> admin@example.com
-                </p>
-                <p>
-                  <strong>User ID:</strong> 1
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <h3 className="font-semibold text-yellow-800 mb-2">Next Steps</h3>
-              <p className="text-sm text-yellow-700">
-                Your authentication token is now stored in localStorage and will
-                persist across browser sessions until you log out.
-              </p>
-            </div>
+            {/* test hooks */}
 
             <div className="flex justify-center pt-4">
               <Button

@@ -3,7 +3,7 @@ import mealApi from '@/api/meal'
 import { ApiError } from '@/components/ErrorComponent'
 import { LoadingMealDetail } from '@/components/PendingComponent'
 
-export const Route = createFileRoute('/meals/$mealId/')({
+export const Route = createFileRoute('/meals/_postLayout/$mealId')({
   component: MealDetailComponent,
   loader: async ({ params }) => {
     const data = await mealApi.getMealById(params.mealId)

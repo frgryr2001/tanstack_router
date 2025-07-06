@@ -85,14 +85,9 @@ invariant(BASE_URL.startsWith('https://'), 'BASE_URL must be a valid HTTPS URL')
 export const mealApi = {
   // Get all meals (using search by first letter 'a' as a workaround since there's no "get all" endpoint)
   getAllMeals: async (): Promise<Array<ProcessedMeal>> => {
-    console.log(
-      '📡 Meal API: getAllMeals() called at:',
-      new Date().toLocaleTimeString(),
-    )
-
     try {
       // TheMealDB doesn't have a "get all" endpoint, so we'll get meals by letter 'a'
-      const response = await fetch(`${BASE_URL}/search.php?f=a`)
+      const response = await fetch(`${BASE_URL}/search.php?f=b`)
 
       invariant(
         response.ok,
@@ -101,15 +96,7 @@ export const mealApi = {
 
       const data: MealResponse = await response.json()
 
-      console.log(
-        '✅ Meal API: getAllMeals() returned',
-        data.meals?.length ?? 0,
-        'meals at:',
-        new Date().toLocaleTimeString(),
-      )
-
       if (!data.meals) {
-        console.warn('⚠️ API returned null meals array')
         return []
       }
 

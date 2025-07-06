@@ -8,23 +8,29 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as EmployeesRouteImport } from './routes/employees'
-import { Route as MealsRouteRouteImport } from './routes/meals/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as MealsIndexRouteImport } from './routes/meals/index'
+import { Route as TodosIndexRouteImport } from './routes/todos/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/authenticated/index'
-import { Route as MealsMealIdIndexRouteImport } from './routes/meals/$mealId/index'
+import { Route as TodosTodoIdRouteImport } from './routes/todos/$todoId'
+import { Route as MealsPostLayoutRouteRouteImport } from './routes/meals/_postLayout/route'
+import { Route as MealsPostLayoutIndexRouteImport } from './routes/meals/_postLayout/index'
+import { Route as MealsPostLayoutMealIdRouteImport } from './routes/meals/_postLayout/$mealId'
 
+const MealsRouteImport = createFileRoute('/meals')()
+
+const MealsRoute = MealsRouteImport.update({
+  id: '/meals',
+  path: '/meals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EmployeesRoute = EmployeesRouteImport.update({
   id: '/employees',
   path: '/employees',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MealsRouteRoute = MealsRouteRouteImport.update({
-  id: '/meals',
-  path: '/meals',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -32,10 +38,10 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MealsIndexRoute = MealsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => MealsRouteRoute,
+const TodosIndexRoute = TodosIndexRouteImport.update({
+  id: '/todos/',
+  path: '/todos/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LoginIndexRoute = LoginIndexRouteImport.update({
   id: '/login/',
@@ -47,90 +53,120 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/authenticated/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MealsMealIdIndexRoute = MealsMealIdIndexRouteImport.update({
-  id: '/$mealId/',
-  path: '/$mealId/',
-  getParentRoute: () => MealsRouteRoute,
+const TodosTodoIdRoute = TodosTodoIdRouteImport.update({
+  id: '/todos/$todoId',
+  path: '/todos/$todoId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MealsPostLayoutRouteRoute = MealsPostLayoutRouteRouteImport.update({
+  id: '/_postLayout',
+  getParentRoute: () => MealsRoute,
+} as any)
+const MealsPostLayoutIndexRoute = MealsPostLayoutIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MealsPostLayoutRouteRoute,
+} as any)
+const MealsPostLayoutMealIdRoute = MealsPostLayoutMealIdRouteImport.update({
+  id: '/$mealId',
+  path: '/$mealId',
+  getParentRoute: () => MealsPostLayoutRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/meals': typeof MealsRouteRouteWithChildren
   '/employees': typeof EmployeesRoute
+  '/meals': typeof MealsPostLayoutRouteRouteWithChildren
+  '/todos/$todoId': typeof TodosTodoIdRoute
   '/authenticated': typeof AuthenticatedIndexRoute
   '/login': typeof LoginIndexRoute
-  '/meals/': typeof MealsIndexRoute
-  '/meals/$mealId': typeof MealsMealIdIndexRoute
+  '/todos': typeof TodosIndexRoute
+  '/meals/$mealId': typeof MealsPostLayoutMealIdRoute
+  '/meals/': typeof MealsPostLayoutIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/employees': typeof EmployeesRoute
+  '/meals': typeof MealsPostLayoutIndexRoute
+  '/todos/$todoId': typeof TodosTodoIdRoute
   '/authenticated': typeof AuthenticatedIndexRoute
   '/login': typeof LoginIndexRoute
-  '/meals': typeof MealsIndexRoute
-  '/meals/$mealId': typeof MealsMealIdIndexRoute
+  '/todos': typeof TodosIndexRoute
+  '/meals/$mealId': typeof MealsPostLayoutMealIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/meals': typeof MealsRouteRouteWithChildren
   '/employees': typeof EmployeesRoute
+  '/meals': typeof MealsRouteWithChildren
+  '/meals/_postLayout': typeof MealsPostLayoutRouteRouteWithChildren
+  '/todos/$todoId': typeof TodosTodoIdRoute
   '/authenticated/': typeof AuthenticatedIndexRoute
   '/login/': typeof LoginIndexRoute
-  '/meals/': typeof MealsIndexRoute
-  '/meals/$mealId/': typeof MealsMealIdIndexRoute
+  '/todos/': typeof TodosIndexRoute
+  '/meals/_postLayout/$mealId': typeof MealsPostLayoutMealIdRoute
+  '/meals/_postLayout/': typeof MealsPostLayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/meals'
     | '/employees'
+    | '/meals'
+    | '/todos/$todoId'
     | '/authenticated'
     | '/login'
-    | '/meals/'
+    | '/todos'
     | '/meals/$mealId'
+    | '/meals/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/employees'
+    | '/meals'
+    | '/todos/$todoId'
     | '/authenticated'
     | '/login'
-    | '/meals'
+    | '/todos'
     | '/meals/$mealId'
   id:
     | '__root__'
     | '/'
-    | '/meals'
     | '/employees'
+    | '/meals'
+    | '/meals/_postLayout'
+    | '/todos/$todoId'
     | '/authenticated/'
     | '/login/'
-    | '/meals/'
-    | '/meals/$mealId/'
+    | '/todos/'
+    | '/meals/_postLayout/$mealId'
+    | '/meals/_postLayout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  MealsRouteRoute: typeof MealsRouteRouteWithChildren
   EmployeesRoute: typeof EmployeesRoute
+  MealsRoute: typeof MealsRouteWithChildren
+  TodosTodoIdRoute: typeof TodosTodoIdRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   LoginIndexRoute: typeof LoginIndexRoute
+  TodosIndexRoute: typeof TodosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/meals': {
+      id: '/meals'
+      path: '/meals'
+      fullPath: '/meals'
+      preLoaderRoute: typeof MealsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/employees': {
       id: '/employees'
       path: '/employees'
       fullPath: '/employees'
       preLoaderRoute: typeof EmployeesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/meals': {
-      id: '/meals'
-      path: '/meals'
-      fullPath: '/meals'
-      preLoaderRoute: typeof MealsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -140,12 +176,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/meals/': {
-      id: '/meals/'
-      path: '/'
-      fullPath: '/meals/'
-      preLoaderRoute: typeof MealsIndexRouteImport
-      parentRoute: typeof MealsRouteRoute
+    '/todos/': {
+      id: '/todos/'
+      path: '/todos'
+      fullPath: '/todos'
+      preLoaderRoute: typeof TodosIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/login/': {
       id: '/login/'
@@ -161,36 +197,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/meals/$mealId/': {
-      id: '/meals/$mealId/'
+    '/todos/$todoId': {
+      id: '/todos/$todoId'
+      path: '/todos/$todoId'
+      fullPath: '/todos/$todoId'
+      preLoaderRoute: typeof TodosTodoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/meals/_postLayout': {
+      id: '/meals/_postLayout'
+      path: '/meals'
+      fullPath: '/meals'
+      preLoaderRoute: typeof MealsPostLayoutRouteRouteImport
+      parentRoute: typeof MealsRoute
+    }
+    '/meals/_postLayout/': {
+      id: '/meals/_postLayout/'
+      path: '/'
+      fullPath: '/meals/'
+      preLoaderRoute: typeof MealsPostLayoutIndexRouteImport
+      parentRoute: typeof MealsPostLayoutRouteRoute
+    }
+    '/meals/_postLayout/$mealId': {
+      id: '/meals/_postLayout/$mealId'
       path: '/$mealId'
       fullPath: '/meals/$mealId'
-      preLoaderRoute: typeof MealsMealIdIndexRouteImport
-      parentRoute: typeof MealsRouteRoute
+      preLoaderRoute: typeof MealsPostLayoutMealIdRouteImport
+      parentRoute: typeof MealsPostLayoutRouteRoute
     }
   }
 }
 
-interface MealsRouteRouteChildren {
-  MealsIndexRoute: typeof MealsIndexRoute
-  MealsMealIdIndexRoute: typeof MealsMealIdIndexRoute
+interface MealsPostLayoutRouteRouteChildren {
+  MealsPostLayoutMealIdRoute: typeof MealsPostLayoutMealIdRoute
+  MealsPostLayoutIndexRoute: typeof MealsPostLayoutIndexRoute
 }
 
-const MealsRouteRouteChildren: MealsRouteRouteChildren = {
-  MealsIndexRoute: MealsIndexRoute,
-  MealsMealIdIndexRoute: MealsMealIdIndexRoute,
+const MealsPostLayoutRouteRouteChildren: MealsPostLayoutRouteRouteChildren = {
+  MealsPostLayoutMealIdRoute: MealsPostLayoutMealIdRoute,
+  MealsPostLayoutIndexRoute: MealsPostLayoutIndexRoute,
 }
 
-const MealsRouteRouteWithChildren = MealsRouteRoute._addFileChildren(
-  MealsRouteRouteChildren,
-)
+const MealsPostLayoutRouteRouteWithChildren =
+  MealsPostLayoutRouteRoute._addFileChildren(MealsPostLayoutRouteRouteChildren)
+
+interface MealsRouteChildren {
+  MealsPostLayoutRouteRoute: typeof MealsPostLayoutRouteRouteWithChildren
+}
+
+const MealsRouteChildren: MealsRouteChildren = {
+  MealsPostLayoutRouteRoute: MealsPostLayoutRouteRouteWithChildren,
+}
+
+const MealsRouteWithChildren = MealsRoute._addFileChildren(MealsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  MealsRouteRoute: MealsRouteRouteWithChildren,
   EmployeesRoute: EmployeesRoute,
+  MealsRoute: MealsRouteWithChildren,
+  TodosTodoIdRoute: TodosTodoIdRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   LoginIndexRoute: LoginIndexRoute,
+  TodosIndexRoute: TodosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

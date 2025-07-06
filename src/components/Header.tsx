@@ -39,6 +39,17 @@ export default function Header() {
           >
             Meals
           </Link>
+          {/* <Link
+            to="/todos"
+            activeProps={{
+              className: 'text-blue-500 font-bold',
+            }}
+            activeOptions={{
+              exact: true,
+            }}
+          >
+            Todos
+          </Link> */}
         </div>
       </nav>
     </header>
