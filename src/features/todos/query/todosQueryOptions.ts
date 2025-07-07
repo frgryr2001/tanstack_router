@@ -1,4 +1,4 @@
-import { queryOptions } from '@tanstack/react-query'
+import { keepPreviousData, queryOptions } from '@tanstack/react-query'
 import { todosApi } from '@/api/todos'
 import { initialKeys } from '@/utils/query-key-factory'
 
@@ -10,6 +10,7 @@ export const todosQueryOptions = {
     queryOptions({
       queryKey: todosQueryKey.list(`limit:${limit},skip:${skip}`),
       queryFn: () => todosApi.getAllTodos(limit, skip),
+      placeholderData: keepPreviousData,
     }),
 
   // Get a single todo by ID

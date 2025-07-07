@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import {
   createTodoMutationOptions,
   deleteTodoMutationOptions,
@@ -7,16 +7,13 @@ import {
 
 // Custom hooks for todos mutations
 export const useCreateTodoMutation = () => {
-  const queryClient = useQueryClient()
-  return useMutation(createTodoMutationOptions(queryClient))
+  return useMutation(createTodoMutationOptions())
 }
 
 export const useUpdateTodoMutation = () => {
-  const queryClient = useQueryClient()
-  return useMutation(updateTodoMutationOptions(queryClient))
+  return useMutation(updateTodoMutationOptions())
 }
 
 export const useDeleteTodoMutation = () => {
-  const queryClient = useQueryClient()
-  return useMutation(deleteTodoMutationOptions(queryClient))
+  return useMutation(deleteTodoMutationOptions())
 }
